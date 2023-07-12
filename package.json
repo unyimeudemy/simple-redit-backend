@@ -1,0 +1,58 @@
+{
+  "name": "redit-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tsc -w",
+    "devjs": "nodemon dist/index.js",
+    "startjs": "node dist/index.js",
+    "startts": "ts-node src/index.ts",
+    "devts": "nodemon --exec ts-node src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cookie-parser": "^1.4.3",
+    "apollo-server-express": "^3.12.0",
+    "argon2": "^0.30.3",
+    "connect-redis": "^7.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dataloader": "^2.2.2",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "graphql": "15.3.0",
+    "ioredis": "^5.3.2",
+    "nodemailer": "^6.9.2",
+    "nodemon": "^2.0.22",
+    "pg": "^8.11.0",
+    "redis": "^4.6.7",
+    "reflect-metadata": "^0.1.13",
+    "tsconfig.json": "^1.0.11",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.3.16",
+    "uuid": "^9.0.0",
+    "yarn": "^1.22.19"
+  },
+  "devDependencies": {
+    "@types/connect-redis": "^0.0.20",
+    "@types/express": "^4.17.17",
+    "@types/express-session": "^1.17.7",
+    "@types/ioredis": "^5.0.0",
+    "@types/minimatch": "^5.1.2",
+    "@types/node": "^18.16.3",
+    "@types/nodemailer": "^6.4.8",
+    "@types/uuid": "^9.0.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "mikro-orm": {
+    "useTsNode": true,
+    "configPaths": [
+      "./src/mikro-orm.config.ts",
+      "./dist/mikro-orm.config.js"
+    ]
+  }
+}
