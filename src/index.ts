@@ -41,14 +41,6 @@ const main = async () => {
       console.log(error);
     });
 
-  //   await conn.runMigrations();
-  //   await Post.delete({});
-
-  ///////////////////////////////////////
-  // const orm = await MikroORM.init(mikroOrmConfig);
-  //   await orm.getMigrator().up();
-  //   console.log("Connected to the database");
-
   const app = express();
 
   app.use(

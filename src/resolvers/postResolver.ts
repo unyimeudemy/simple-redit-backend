@@ -55,7 +55,6 @@ export class PostResolver {
       postID: root._id,
       userID: 1,
     });
-    console.log("updoot- ", updoot);
 
     return updoot ? updoot.value : null;
   }
@@ -76,64 +75,57 @@ export class PostResolver {
     const hasVoted = await Updoot.findOne({ where: { postID, userID } });
 
     //user has voted before and wants to change the vote
-    console.log("hasvoted: ", hasVoted && hasVoted.value !== realValue);
     if (hasVoted && hasVoted.value !== realValue) {
       console.log("has voted before ");
       //
-      const res1 = await getConnection().transaction(
-        async (transactionManger) => {
-          await transactionManger.query(
-            `
+      await getConnection().transaction(async (transactionManger) => {
+        await transactionManger.query(
+          `
         update updoot 
         set value = $1
         where "postID" = $2 
         `,
-            [realValue, postID]
-          );
-          // await transactionManger.query(
-          //   `
-          // update updoot
-          // set value = $1
-          // where "postID" = $2 and "userID" = $3
-          // `,
-          //   [realValue, postID, userID]
-          // );
+          [realValue, postID]
+        );
+        // await transactionManger.query(
+        //   `
+        // update updoot
+        // set value = $1
+        // where "postID" = $2 and "userID" = $3
+        // `,
+        //   [realValue, postID, userID]
+        // );
 
-          await transactionManger.query(
-            `
+        await transactionManger.query(
+          `
               update post 
               set points = points + $1
               where _id = $2;
                 `,
-            [2 * realValue, postID]
-          );
-        }
-      );
-      console.log("res1: ", res1);
+          [2 * realValue, postID]
+        );
+      });
     } else if (hasVoted === null) {
       console.log("has not voted");
       //user is just voting for the first time.
-      const res2 = await getConnection().transaction(
-        async (transactionManger) => {
-          await transactionManger.query(
-            `
+      await getConnection().transaction(async (transactionManger) => {
+        await transactionManger.query(
+          `
         insert into updoot ("userID", "postID", value)
         values($1, $2, $3)
         `,
-            [userID, postID, realValue]
-          );
+          [userID, postID, realValue]
+        );
 
-          await transactionManger.query(
-            `
+        await transactionManger.query(
+          `
         update post 
         set points = points + $1
         where _id = $2;
           `,
-            [realValue, postID]
-          );
-        }
-      );
-      console.log("res2: ", res2);
+          [realValue, postID]
+        );
+      });
     }
 
     return true;

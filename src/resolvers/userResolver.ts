@@ -154,7 +154,6 @@ export class UserResolver {
     @Ctx()
     { req }: MyContext
   ) {
-    // console.log("💥💥💥", req.session);
     if (!(req.session as MySession).userID) {
       return null;
     }
@@ -184,7 +183,6 @@ export class UserResolver {
     // check if username has been used
     // const usernameUsed = await em.findOne(User, { username: options.username });
     const usernameUsed = await User.findOneBy({ username: options.username });
-    console.log(options);
 
     if (usernameUsed) {
       return {
@@ -214,9 +212,7 @@ export class UserResolver {
     // });
     // await em.persistAndFlush(user);
 
-    // console.log(req);
     (req.session as MySession).userID = user._id;
-    console.log(req.session);
 
     return { user };
   }
@@ -281,7 +277,6 @@ export class UserResolver {
     return new Promise((resolve) => {
       req.session.destroy((err) => {
         if (err) {
-          console.log(err);
           resolve(false);
           return;
         }
