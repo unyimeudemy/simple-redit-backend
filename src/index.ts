@@ -1,6 +1,5 @@
 import "reflect-metadata";
 // import { MikroORM } from "@mikro-orm/core";
-import { COOKIE_NAME, __prod__ } from "./constants";
 // import mikroOrmConfig from "./mikro-orm.config";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
@@ -20,14 +19,16 @@ import path from "path";
 import { Updoot } from "./entities/Updoot";
 import { createUserLoader } from "./utils/loaders/createUserLoader";
 import { createUpdootLoader } from "./utils/loaders/createUpdootLoader";
+import dotenv from "dotenv";
+dotenv.config({ path: "./config.env" });
 
 const main = async () => {
   ///////////////////////////////////////
   await createConnection({
     type: "postgres",
     database: "redit-clone2",
-    username: "postgres",
-    password: "211999",
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
     entities: [User, Post, Updoot],
     logging: true,
     synchronize: true,
@@ -71,7 +72,7 @@ const main = async () => {
 
   app.use(
     session({
-      name: COOKIE_NAME,
+      name: process.env.COOKIE_NAME,
       store: store,
       resave: false,
       saveUninitialized: false,
@@ -79,7 +80,7 @@ const main = async () => {
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365,
         httpOnly: true,
-        secure: __prod__,
+        secure: process.env.NODE_ENV !== "production",
         sameSite: "lax",
       },
     })

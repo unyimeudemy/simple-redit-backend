@@ -14,7 +14,7 @@ import {
 } from "type-graphql";
 import argon2 from "argon2";
 import { Session } from "express-session";
-import { COOKIE_NAME, FORGOT_PASSWORD_PREFIX, TOKEN_EXP } from "../constants";
+// import {   TOKEN_EXP } from "../constants";
 import { usernameAndPassword } from "./usernameAndPassword";
 import { validateRegister } from "../utils/validateRegister";
 import { sendEmail } from "../utils/sendEmail";
@@ -78,7 +78,7 @@ export class UserResolver {
     }
 
     //checking if token is valid
-    const tokenKey = FORGOT_PASSWORD_PREFIX + token;
+    const tokenKey = process.env.FORGOT_PASSWORD_PREFIX + token;
     const userID = await redis.get(tokenKey);
     if (!userID) {
       return {
@@ -135,7 +135,12 @@ export class UserResolver {
       return true;
     }
     const token = v4();
-    await redis.set(FORGOT_PASSWORD_PREFIX + token, user._id, "EX", TOKEN_EXP);
+    await redis.set(
+      process.env.FORGOT_PASSWORD_PREFIX + token,
+      user._id,
+      "EX",
+      process.env.TOKEN_EXP as string
+    );
     sendEmail(
       email,
       `<a href='http://localhost:3000/change-password/${token}'>reset password</a>`
@@ -280,7 +285,7 @@ export class UserResolver {
           resolve(false);
           return;
         }
-        res.clearCookie(COOKIE_NAME);
+        res.clearCookie(process.env.COOKIE_NAME as string);
         resolve(true);
       });
     });
