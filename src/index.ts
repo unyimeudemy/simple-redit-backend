@@ -47,7 +47,8 @@ const main = async () => {
     cors({
       credentials: true,
       //   origin: "http://localhost:3000",
-      origin: "https://redit-clone-frontend.onrender.com",
+      //   origin: "https://redit-clone-frontend.onrender.com",
+      origin: "https://simple-redit-frontend-ntdwzn7w4-unyimeudemy.vercel.app",
     })
   );
 
