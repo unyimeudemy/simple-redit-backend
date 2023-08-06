@@ -55,6 +55,7 @@ const main = async () => {
   app.use(cookieParser());
 
   //   const RedisStore = connectRedis(session)
+  //   const RedisStore = connectRedis(session)
   const RedisStore = require("connect-redis").default;
 
   const redis = new Redis();
