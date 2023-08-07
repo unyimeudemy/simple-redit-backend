@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "watch": "tsc -w",
-    "devjs": "node dist/index.js",
+    "startjss": "nodemon dist/index.js",
     "startjs": "node dist/index.js",
     "startts": "ts-node src/index.ts",
-    "start": "node --exec ts-node src/index.ts"
+    "devts": "nodemon --exec ts-node src/index.ts",
+    "start": "node ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
