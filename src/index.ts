@@ -1,4 +1,4 @@
-import "reflect-metadata";
+// import "reflect-metadata";
 // import { MikroORM } from "@mikro-orm/core";
 // import mikroOrmConfig from "./mikro-orm.config";
 import express from "express";
