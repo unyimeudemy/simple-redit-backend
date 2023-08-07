@@ -6,10 +6,10 @@
   "scripts": {
     "watch": "tsc -w",
     "startjss": "nodemon dist/index.js",
-    "startjs": "node dist/index.js",
+    "start": "node dist/index.js",
     "startts": "ts-node src/index.ts",
     "devts": "nodemon --exec ts-node src/index.ts",
-    "start": "node  src/index.ts"
+    "starts": "node  src/index.ts"
   },
   "keywords": [],
   "author": "",
