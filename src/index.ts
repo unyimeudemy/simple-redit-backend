@@ -1,6 +1,4 @@
-// import "reflect-metadata";
-// import { MikroORM } from "@mikro-orm/core";
-// import mikroOrmConfig from "./mikro-orm.config";
+import "reflect-metadata";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
@@ -22,10 +20,15 @@ import { createUpdootLoader } from "./utils/loaders/createUpdootLoader";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 
+console.log(
+  "typeof process.env.DB_PASSWORD--:",
+  typeof process.env.DB_PASSWORD
+);
+
 const main = async () => {
-  ///////////////////////////////////////
   await createConnection({
     type: "postgres",
+    host: "db",
     database: "redit-clone2",
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
@@ -46,9 +49,9 @@ const main = async () => {
   app.use(
     cors({
       credentials: true,
-      //   origin: "http://localhost:3000",
+      origin: "http://localhost:3000",
       //   origin: "https://redit-clone-frontend.onrender.com",
-      origin: "https://simple-redit-frontend-ntdwzn7w4-unyimeudemy.vercel.app",
+      //   origin: "https://simple-redit-frontend.vercel.app",
     })
   );
 

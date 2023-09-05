@@ -131,6 +131,7 @@ export class PostResolver {
     return true;
   }
 
+  //FETCHING ALL POST
   @Query(() => [Post])
   //   async posts(@Ctx() { em }: MyContext): Promise<Post[]> {
   //     const posts = await em.find(Post, {});
@@ -146,6 +147,7 @@ export class PostResolver {
 
     const replacement: any[] = [realLimitPlusOne];
 
+    console.log("fetching all post");
     if (cursor) {
       replacement.push(new Date(parseInt(cursor)));
     }
@@ -171,15 +173,6 @@ export class PostResolver {
     const post = await Post.findOneBy({ _id: id });
     return post;
   }
-  //   @Query(() => Post, { nullable: true })
-  //   async post(
-  //     @Arg("id", () => Int) id: number,
-  //     @Ctx()
-  //     { em }: MyContext
-  //   ): Promise<Post | null> {
-  //     const post = await em.findOne(Post, { _id: id });
-  //     return post;
-  //   }
 
   // CREATE NEW POST
   @Mutation(() => Post)
@@ -195,21 +188,8 @@ export class PostResolver {
     }).save();
     return post;
   }
-  //   @Mutation(() => Post)
-  //   async createPost(
-  //     @Arg("title", () => String, { nullable: true }) title: string,
-  //     @Arg("createdAt", () => String, { nullable: true }) createdAt: string,
-  //     @Arg("updatedAt", () => String, { nullable: true }) updatedAt: string,
-  //     @Ctx()
-  //     { em }: MyContext
-  //   ): Promise<Post> {
-  //     const post = em.create(Post, { title, createdAt, updatedAt });
-  //     await em.persistAndFlush(post);
-  //     return post;
-  //   }
 
   //UPDATING A POST
-
   @Mutation(() => Post, { nullable: true })
   //   @UseMiddleware(isAuth)
   async updatePost(
@@ -229,25 +209,6 @@ export class PostResolver {
     return result.raw[0];
   }
 
-  //   @Mutation(() => Post, { nullable: true })
-  //   async updatePost(
-  //     @Arg("id", () => Int, { nullable: true }) id: number,
-  //     @Arg("title", () => String, { nullable: true }) title: string,
-  //     @Arg("createdAt", () => String, { nullable: true })
-  //     @Arg("updatedAt", () => String, { nullable: true })
-  //     @Ctx()
-  //     { em }: MyContext
-  //   ): Promise<Post | null> {
-  //     const post = await em.findOne(Post, { _id: id });
-  //     if (!post) {
-  //       return null;
-  //     } else {
-  //       post.title = title;
-  //       await em.persistAndFlush(post);
-  //       return post;
-  //     }
-  //   }
-
   //DELETING A POST
 
   @Mutation(() => Boolean)
@@ -266,20 +227,5 @@ export class PostResolver {
     }
   }
 }
-//   @Mutation(() => Boolean)
-//   async deletePost(
-//     @Arg("id", () => Int, { nullable: true }) id: number,
-//     @Ctx()
-//     { em }: MyContext
-//   ): Promise<boolean> {
-//     const post = await em.findOne(Post, { _id: id });
-//     if (!post) {
-//       return false;
-//     } else {
-//       await em.removeAndFlush(post);
-//       return true;
-//     }
-//   }
-// }
 
 //////////////////////////////////////////

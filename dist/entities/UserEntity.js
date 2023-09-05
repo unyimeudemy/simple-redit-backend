@@ -9,12 +9,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Post = void 0;
-const typeorm_1 = require("typeorm");
-const type_graphql_1 = require("type-graphql");
-const UserEntity_1 = require("./UserEntity");
+exports.User = void 0;
 const Updoot_1 = require("./Updoot");
-let Post = class Post extends typeorm_1.BaseEntity {
+const type_graphql_1 = require("type-graphql");
+const typeorm_1 = require("typeorm");
+const post_1 = require("./post");
+let User = class User extends typeorm_1.BaseEntity {
     constructor() {
         super(...arguments);
         this.createdAt = new Date();
@@ -25,53 +25,43 @@ __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Post.prototype, "_id", void 0);
+], User.prototype, "_id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String, { nullable: true }),
-    (0, typeorm_1.Column)({ nullable: true }),
-    __metadata("design:type", Number)
-], Post.prototype, "creatorID", void 0);
+    (0, typeorm_1.Column)({ unique: true }),
+    __metadata("design:type", String)
+], User.prototype, "username", void 0);
 __decorate([
-    (0, type_graphql_1.Field)({ nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => UserEntity_1.User, (user) => user.posts),
-    __metadata("design:type", UserEntity_1.User)
-], Post.prototype, "creator", void 0);
+    (0, type_graphql_1.Field)(() => String, { nullable: true }),
+    (0, typeorm_1.Column)({ unique: true }),
+    __metadata("design:type", String)
+], User.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => Updoot_1.Updoot, (updoot) => updoot.post),
+    (0, type_graphql_1.Field)(() => String, { nullable: true }),
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
+], User.prototype, "password", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => post_1.Post, (post) => post.creator),
     __metadata("design:type", Array)
-], Post.prototype, "updoots", void 0);
+], User.prototype, "posts", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => String, { nullable: true }),
-    (0, typeorm_1.Column)({ type: "varchar" }),
-    __metadata("design:type", Object)
-], Post.prototype, "title", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(() => type_graphql_1.Int, { nullable: true }),
-    __metadata("design:type", Object)
-], Post.prototype, "voteStatus", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(() => String, { nullable: true }),
-    (0, typeorm_1.Column)({ type: "varchar" }),
-    __metadata("design:type", Object)
-], Post.prototype, "text", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(() => String, { nullable: true }),
-    (0, typeorm_1.Column)({ type: "int", default: 0 }),
-    __metadata("design:type", Object)
-], Post.prototype, "points", void 0);
+    (0, typeorm_1.OneToMany)(() => Updoot_1.Updoot, (updoot) => updoot.user),
+    __metadata("design:type", Array)
+], User.prototype, "updoots", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String, { nullable: true }),
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
-], Post.prototype, "createdAt", void 0);
+], User.prototype, "createdAt", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String, { nullable: true }),
     (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
-], Post.prototype, "updatedAt", void 0);
-Post = __decorate([
+], User.prototype, "updatedAt", void 0);
+User = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)()
-], Post);
-exports.Post = Post;
-//# sourceMappingURL=post.js.map
+], User);
+exports.User = User;
+//# sourceMappingURL=UserEntity.js.map
