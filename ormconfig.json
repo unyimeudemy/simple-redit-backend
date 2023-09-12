@@ -1,0 +1,9 @@
+{
+  "type": "postgres",
+  "host": "db",
+  "port": 5432,
+  "username": "postgres",
+  "password": "211999",
+  "database": "redit-postgres",
+  "entities": ["dist/entities/*.js"]
+}

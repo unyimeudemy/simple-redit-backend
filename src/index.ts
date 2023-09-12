@@ -26,23 +26,43 @@ console.log(
 );
 
 const main = async () => {
-  await createConnection({
-    type: "postgres",
-    host: "db",
-    database: "redit-clone2",
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    entities: [User, Post, Updoot],
-    logging: true,
-    synchronize: true,
-    migrations: [path.join(__dirname, "./migrations/*")],
-  })
-    .then(() => {
-      console.log("connected to database");
+  let retries = 6;
+  while (retries) {
+    await createConnection({
+      type: "postgres",
+      host: "db",
+      port: 5432,
+      database: "redit-postgres",
+      entities: [User, Post, Updoot],
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      logging: true,
+      synchronize: true,
+      migrations: [path.join(__dirname, "./migrations/*")],
+
+      // host: "db",
+      // url: "postgres://postgres:211999@localhost:5432/redit-postgres",
+      // database: "redit-postgres",
+      // username: process.env.DB_USERNAME,
+      // password: process.env.DB_PASSWORD,
+      //     type: "postgres",
+      //     url: process.env.DATABASE_URL,
+      //     logging: true,
+      //     // synchronize: true,
+      //     migrations: [path.join(__dirname, "./migrations/*")],
+      //     entities: [Post, User, Updoot],
+      //   });
     })
-    .catch((error) => {
-      console.log(error);
-    });
+      .then(() => {
+        console.log("connected to database");
+      })
+      .catch(async (error) => {
+        console.log("💥💥 error: ", error);
+        retries -= 1;
+        console.log("retries left: ", retries);
+        await new Promise((res) => setTimeout(res, 5000));
+      });
+  }
 
   const app = express();
 
@@ -112,3 +132,51 @@ main().catch((err) => {
 });
 
 // commit should work
+// i meant without docker compose
+
+// docker run -d --name my-app-container --network mynetwork -p 4000:4000 your-app-image:tag
+// volumes: -./pgdata:/var/lib/postgresql/data
+
+// version: "3"
+// services:
+//   db:
+//     image: postgres
+//     environment:
+//       POSTGRES_DB: redit-postgres
+//       POSTGRES_USER: postgres
+//       POSTGRES_PASSWORD: "211999"
+//     ports:
+//       - 5432:5432
+//     volumes:
+//       - ./pgdata:/var/lib/postgresql/data
+//   app:
+//     build:
+//       context: .
+//       dockerfile: Dockerfile
+//     ports:
+//       - 4000:4000
+//     depends_on:
+//       - db
+// volumes:
+//   pgdata:
+//*************************************************************************************** */
+// version: "3"
+// services:
+//   db:
+//     image: postgres
+//     environment:
+//       POSTGRES_DB: redit-postgres
+//       POSTGRES_USER: postgres
+//       POSTGRES_PASSWORD: "211999"
+//     ports:
+//       - 5432:5432
+//     volumes:
+//       - ./pgdata:/var/lib/postgresql/data
+//   app:
+//     build:
+//       context: .
+//       dockerfile: Dockerfile
+//     ports:
+//       - 4000:4000
+//     links:
+//   - db

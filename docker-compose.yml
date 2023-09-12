@@ -1,18 +1,20 @@
 version: "3"
 services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: redit-postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "211999"
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
   app:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "4000:4000"
-    depends_on:
+      - 4000:4000
+    links:
       - db
-  db:
-    image: postgres
-    environment:
-      POSTGRES_DB: redit-clone2
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "211999"
-    ports:
-      - "5434:5434"

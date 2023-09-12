@@ -6,13 +6,14 @@
 # EXPOSE 4000
 # CMD [ "nodemon", "--exec", "ts-node", "src/index.ts" ]
 
-FROM node:slim
+FROM node:18.12.1
 WORKDIR /redit-server
 COPY . /redit-server
 COPY package.json yarn.lock ./
 RUN yarn install
 RUN yarn add typeorm pg
-COPY config.env .env
+COPY config.env ./config.env
+COPY ormconfig.json ./ormconfig.json
 RUN yarn build
 EXPOSE 4000
 CMD [ "node", "dist/index.js" ]
